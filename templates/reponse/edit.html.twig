@@ -1,0 +1,24 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Modifier la Réponse{% endblock %}
+
+{% block body %}
+    <!-- Titre centré avec une marge supérieure -->
+    <h1 style="text-align: center; margin-top: 60px; font-size: 2.5rem; font-weight: bold; color: #333; position: relative; top: 100px">
+        Modifier la Réponse
+    </h1>
+
+    <!-- Formulaire centré -->
+    <div style="display: flex; justify-content: center; align-items: center; height: 80vh;">
+        <div style="width: 60%; padding: 30px; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+            {{ include('reponse/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+        </div>
+    </div>
+
+    <!-- Liens stylisés pour la navigation -->
+    <div style="text-align: center; margin-top: 30px; position: relative; bottom: 50px;">
+        <a href="{{ path('app_reponse_index') }}" style="font-size: 18px; color: #007bff; text-decoration: none; font-weight: bold; margin-right: 15px;">
+            Retour à la liste
+        </a>
+    </div>
+{% endblock %}

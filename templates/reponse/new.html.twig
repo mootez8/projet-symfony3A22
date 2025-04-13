@@ -1,0 +1,46 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}New Response{% endblock %}
+
+{% block body %}
+    <!-- Titre centré avec style amélioré -->
+    <h1 style="text-align: center; margin-top: 90px; font-size: 2.8rem; font-weight: 700; color: #2c3e50;">
+        Repondre à une reclamation
+    </h1>
+
+    <!-- Conteneur du formulaire centré avec style moderne -->
+    <div style="
+        display: flex; 
+        justify-content: center; 
+        align-items: center; 
+        margin-top: 40px;
+    ">
+        <div style="
+            width: 100%; 
+            max-width: 700px; 
+            background-color: #ffffff; 
+            padding: 40px; 
+            border-radius: 12px; 
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        ">
+            <!-- Le formulaire -->
+            {{ include('reponse/_form.html.twig', { attr: { style: 'display: flex; flex-direction: column; gap: 20px;' } }) }}
+        </div>
+    </div>
+    
+
+    <!-- Lien de retour stylisé -->
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="{{ path('app_reponse_index') }}" style="
+            font-size: 18px; 
+            color: #3498db; 
+            text-decoration: none; 
+            font-weight: bold;
+            transition: color 0.3s;
+        " onmouseover="this.style.color='#1d6fa5'" onmouseout="this.style.color='#3498db'">
+            ← Back to list
+        </a>
+    </div>
+{% endblock %}
+
+

@@ -1,0 +1,70 @@
+{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+    {# Champ "id_reclamation" avec style personnalisé #}
+    <div class="form-group" style="margin-bottom: 20px;">
+        <label style="color: #007bff; font-weight: bold;">
+            {{ form_label(form.id_reclamation) }}
+        </label>
+        {{ form_widget(form.id_reclamation, {
+            'attr': {
+                'class': 'form-control',
+                'style': 'background-color: #f0f8ff; border: 2px solid #007bff;'
+            }
+        }) }}
+
+        {% if form.id_reclamation.vars.errors|length > 0 %}
+            <div class="text-danger text-center mt-2">
+                {{ form_errors(form.id_reclamation) }}
+            </div>
+        {% endif %}
+
+
+        
+    </div>
+
+    {# Champ "reponse" avec style personnalisé #}
+    <div class="form-group" style="margin-bottom: 20px;">
+        <label style="color: #28a745; font-weight: bold;">
+            {{ form_label(form.reponse) }}
+        </label>
+        {{ form_widget(form.reponse, {
+            'attr': {
+                'class': 'form-control',
+                'style': 'background-color: #f5fff5; border: 2px solid #28a745;'
+            }
+        }) }}
+
+        {% if form.reponse.vars.errors|length > 0 %}
+            <div class="text-danger text-center mt-2">
+                {{ form_errors(form.reponse) }}
+            </div>
+        {% endif %}
+    </div>
+
+    {# Autres champs, sans doublons #}
+    {% for child in form %}
+        {% if child.vars.name != 'id_reclamation' and child.vars.name != 'reponse' %}
+            {{ form_row(child) }}
+        {% endif %}
+    {% endfor %}
+
+    <div style="text-align: center; margin-top: 20px;">
+        <button type="submit" style="
+            background-color: #28a745;
+            color: white;
+            padding: 12px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        " 
+        onmouseover="this.style.backgroundColor='#218838'"
+        onmouseout="this.style.backgroundColor='#28a745'">
+            {{ button_label|default('Enregistrer') }}
+        </button>
+    </div>
+
+{{ form_end(form) }}

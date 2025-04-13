@@ -1,0 +1,106 @@
+<?php
+
+namespace App\Entity;
+
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;  // Importation des contraintes
+
+use App\Repository\ReponseRepository;
+
+#[ORM\Entity(repositoryClass: ReponseRepository::class)]
+#[ORM\Table(name: 'reponse')]
+class Reponse
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private ?int $id_reponse = null;
+
+    public function getId_reponse(): ?int
+    {
+        return $this->id_reponse;
+    }
+
+    public function setId_reponse(int $id_reponse): self
+    {
+        $this->id_reponse = $id_reponse;
+        return $this;
+    }
+
+    #[ORM\Column(type: 'integer', nullable: false)]
+    private ?int $id_reclamation = null;
+
+    public function getId_reclamation(): ?int
+    {
+        return $this->id_reclamation;
+    }
+
+    public function setId_reclamation(int $id_reclamation): self
+    {
+        $this->id_reclamation = $id_reclamation;
+        return $this;
+    }
+
+    #[ORM\Column(type: 'string', nullable: false)]
+    #[Assert\NotBlank(message: 'La réponse ne peut pas être vide')]  // Contrôle pour ne pas être vide
+    #[Assert\Length(min: 3, minMessage: 'La réponse doit contenir au moins {{ limit }} caractères')]  // Contrôle de longueur minimum
+    private ?string $reponse = null;
+    
+
+    public function getReponse(): ?string
+    {
+        return $this->reponse;
+    }
+
+    public function setReponse(?string $reponse): self
+    {
+        $this->reponse = $reponse;
+        return $this;
+    }
+    
+    #[ORM\Column(type: 'date', nullable: false)]
+    private ?\DateTimeInterface $date_reponse = null;
+
+    public function getDate_reponse(): ?\DateTimeInterface
+    {
+        return $this->date_reponse;
+    }
+
+    public function setDate_reponse(\DateTimeInterface $date_reponse): self
+    {
+        $this->date_reponse = $date_reponse;
+        return $this;
+    }
+
+    public function getIdReponse(): ?int
+    {
+        return $this->id_reponse;
+    }
+
+    public function getIdReclamation(): ?int
+    {
+        return $this->id_reclamation;
+    }
+
+    public function setIdReclamation(int $id_reclamation): static
+    {
+        $this->id_reclamation = $id_reclamation;
+
+        return $this;
+    }
+
+    public function getDateReponse(): ?\DateTimeInterface
+    {
+        return $this->date_reponse;
+    }
+
+    public function setDateReponse(\DateTimeInterface $date_reponse): static
+    {
+        $this->date_reponse = $date_reponse;
+
+        return $this;
+    }
+}

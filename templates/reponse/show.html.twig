@@ -1,0 +1,42 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Réponse{% endblock %}
+
+{% block body %}
+    <h1 style="text-align: center; margin-top: 220px;">Détails de la Réponse</h1>
+
+    <!-- Carte-table stylisée -->
+    <div style="display: flex; justify-content: center; margin-top: 30px;">
+        <table class="table table-sm table-bordered" style="font-size: 18px; width: 70%; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); overflow: hidden;">
+            <thead style="background-color: #f8f9fa;">
+                <tr>
+                    <th colspan="2" style="text-align: center; font-size: 20px; padding: 15px;">📨 Informations sur la Réponse</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th style="width: 30%; padding: 12px; background-color: #f1f1f1; color: #007bff;">📌 ID Réclamation</th>
+                    <td style="padding: 12px;">{{ reponse.idReclamation }}</td>
+                </tr>
+                <tr>
+                    <th style="padding: 12px; background-color: #f1f1f1; color: #28a745;">✉️ Réponse</th>
+                    <td style="padding: 12px;">{{ reponse.reponse }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Liens de navigation stylisés -->
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="{{ path('app_reponse_index') }}" style="margin-right: 20px; font-size: 18px; color: #007bff; text-decoration: none; font-weight: bold;">
+            ← Retour à la liste
+        </a>
+        <a href="{{ path('app_reponse_edit', {'id_reponse': reponse.id_reponse}) }}" style="margin-right: 20px; font-size: 18px; color: #28a745; text-decoration: none; font-weight: bold;">
+            ✏️ Modifier
+        </a>
+
+        <div style="margin-top: 20px;">
+            {{ include('reponse/_delete_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}
