@@ -1,0 +1,26 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Edit Event{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="mb-4">Edit Event</h1>
+
+        <!-- Formulaire de modification d'événement -->
+        <div class="card">
+            <div class="card-body">
+                {{ include('event/_form.html.twig', {'button_label': 'Update'}) }}
+            </div>
+        </div>
+
+        <!-- Retour à la liste -->
+        <div class="mt-4">
+            <a href="{{ path('app_event_indexBack') }}" class="btn btn-secondary">← Back to list</a>
+        </div>
+
+        <!-- Formulaire de suppression -->
+        <div class="mt-4">
+            {{ include('event/_delete_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}

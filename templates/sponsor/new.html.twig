@@ -1,0 +1,21 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}New Sponsor{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="mb-4">Create New Sponsor</h1>
+
+        <!-- Formulaire de création de sponsor -->
+        <div class="card">
+            <div class="card-body">
+                {{ include('sponsor/_form.html.twig') }}
+            </div>
+        </div>
+
+        <!-- Bouton Retour à la liste -->
+        <a href="{{ path('app_sponsor_index') }}" class="btn btn-secondary mt-3">
+            ← Back to list
+        </a>
+    </div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% for message in app.flashes('error') %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{% endfor %}
+
+{{ form_start(form,{'attr': {'novalidate': 'novalidate'}}) }}
+    <div class="form-group">
+        {{ form_label(form.nomSponsor,"Nom de sponsor",{'label_attr': {'style': 'color: black;'}}) }}
+        {{ form_widget(form.nomSponsor, {'attr': {'class': 'form-control'}}) }}
+        <div class="text-danger small">{{ form_errors(form.nomSponsor) }}</div>
+    </div>
+    <div class="form-group">
+        {{ form_label(form.emailSpon,"Email de sponsor",{'label_attr': {'style': 'color: black;'}}) }}
+        {{ form_widget(form.emailSpon, {'attr': {'class': 'form-control'}}) }}
+        <div class="text-danger small">{{ form_errors(form.emailSpon) }}</div>
+    </div>
+    <div class="form-group">
+        {{ form_label(form.contribution,"Contribution",{'label_attr': {'style': 'color: black;'}}) }}
+        {{ form_widget(form.contribution, {'attr': {'class': 'form-control'}}) }}
+        <div class="text-danger small">{{ form_errors(form.contribution) }}</div>
+    </div>
+
+    <button class="btn btn-success">{{ button_label|default('💾 Save') }}</button>
+{{ form_end(form) }}
+

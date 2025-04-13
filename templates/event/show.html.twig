@@ -1,0 +1,54 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Event{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="mb-4">Event Details</h1>
+
+        <!-- Tableau de détails de l'événement -->
+        <div class="card">
+            <div class="card-body">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>IdEvent</th>
+                            <td>{{ event.idEvent }}</td>
+                        </tr>
+                        <tr>
+                            <th>NomEv</th>
+                            <td>{{ event.nomEv }}</td>
+                        </tr>
+                        <tr>
+                            <th>Description</th>
+                            <td>{{ event.description }}</td>
+                        </tr>
+                        <tr>
+                            <th>DateEvent</th>
+                            <td>{{ event.dateEvent ? event.dateEvent|date('Y-m-d') : '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>NomSp</th>
+                            <td>{{ event.sponsor.nomSponsor }}</td>
+                        </tr>
+                        <tr>
+                            <th>Lieu</th>
+                            <td>{{ event.lieu }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Boutons d'actions -->
+        <div class="mt-4">
+            <a href="{{ path('app_event_indexBack') }}" class="btn btn-secondary">← Back to list</a>
+            <a href="{{ path('app_event_edit', {'idEvent': event.idEvent}) }}" class="btn btn-primary ml-2">✏️ Edit</a>
+        </div>
+
+        <!-- Formulaire de suppression -->
+        <div class="mt-4">
+            {{ include('event/_delete_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Edit Sponsor{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="mb-4">Edit Sponsor</h1>
+
+        <!-- Formulaire de modification -->
+        <div class="card">
+            <div class="card-body">
+                {{ include('sponsor/_form.html.twig', {'button_label': 'Update'}) }}  
+                <a href="{{ path('app_sponsor_index') }}" class="btn btn-secondary"> ← Back to list</a>
+
+            <!-- Formulaire de suppression -->
+            {{ include('sponsor/_delete_form.html.twig') }}
+            </div>
+        </div>
+
+       
+    </div>
+{% endblock %}
