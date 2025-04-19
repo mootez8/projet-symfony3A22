@@ -6,13 +6,17 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use App\Repository\SponsorRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: SponsorRepository::class)]
 #[ORM\Table(name: "sponsors", uniqueConstraints: [
     new ORM\UniqueConstraint(name: "unique_nom_sponsor", columns: ["nomSponsor"])
 ])]
+#[UniqueEntity(
+    fields: ['nomSponsor'],
+    message: 'Ce nom de sponsor est déjà utilisé. Veuillez en choisir un autre.'
+)]
 class Sponsor
 {
     #[ORM\Id]
@@ -90,7 +94,7 @@ class Sponsor
         message: "La contribution doit être un nombre"
     )]
     #[Assert\Positive(
-        message: "La contribution doit être positive"
+        message: "La contribution doit être de chiffre positive et ne contient pas des lettres"
     )]
     #[Assert\GreaterThanOrEqual(
         value: 1000,
@@ -107,13 +111,12 @@ class Sponsor
         return $this->contribution;
     }
 
-    public function setContribution(float $contribution): self
+
+    public function setContribution(float|string $contribution): self
     {
-        $this->contribution = $contribution;
+        $this->contribution = (float) $contribution;
         return $this;
     }
-
-
     #[ORM\OneToMany(mappedBy: 'sponsor', targetEntity: Event::class)]
 private Collection $events;
 

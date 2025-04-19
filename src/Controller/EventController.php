@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Entity\Historique;
 use App\Form\EventType;
 use App\Repository\EventRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
-#[Route('/')]
+#[Route('/event')]
 final class EventController extends AbstractController
 {
     #[Route(name: 'app_event_index', methods: ['GET'])]
@@ -79,9 +80,19 @@ final class EventController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //sauvgarder l evenement
             $entityManager->persist($event);
             $entityManager->flush();
+            
+             // Enregistrement dans la table Historique
+                    $historique = new Historique();
+                    $historique->setAction('Ajout');
+                    $historique->setDateAction(new \DateTime());
+                    $historique->setIdEvent($event->getIdEvent());
+                    $historique->setDetails('Ajout de l\'événement : ' . $event->getNomEv()); 
 
+                    $entityManager->persist($historique);
+                    $entityManager->flush();
             return $this->redirectToRoute('app_event_indexBack', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -90,6 +101,7 @@ final class EventController extends AbstractController
             'form' => $form,
         ]);
     }
+
 
     #[Route('/{idEvent}', name: 'app_event_show', methods: ['GET'])]
     public function show(Event $event): Response
@@ -114,7 +126,16 @@ final class EventController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+           //modifier l evenement
             $entityManager->flush();
+             // Historique de modification
+                $historique = new Historique();
+                $historique->setAction('Modification');
+                $historique->setDateAction(new \DateTime());
+                $historique->setIdEvent($event->getIdEvent());
+                $historique->setDetails('Événement modifié avec le Nom : ' . $event->getNomEv());
+                $entityManager->persist($historique);
+                $entityManager->flush();
 
             return $this->redirectToRoute('app_event_indexBack', [], Response::HTTP_SEE_OTHER);
         }
@@ -129,6 +150,16 @@ final class EventController extends AbstractController
     public function delete(Request $request, Event $event, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$event->getIdEvent(), $request->getPayload()->getString('_token'))) {
+
+            // Historique avant suppression 
+                $historique = new Historique();
+                $historique->setAction('Suppression');
+                $historique->setDateAction(new \DateTime());
+                $historique->setIdEvent($event->getIdEvent());
+                $historique->setDetails('Le Nom de l\'Événement supprimé  : ' . $event->getNomEv());
+                $entityManager->persist($historique);
+
+            //supprimer l evenement
             $entityManager->remove($event);
             $entityManager->flush();
         }

@@ -10,7 +10,7 @@
         <div class="card">
             <div class="card-body">
                 <table class="table">
-                    <tbody>
+                    <tbody class="text-dark">
                         
                         <tr>
                             <th>Nom de l'evenement</th>
@@ -30,7 +30,16 @@
                         </tr>
                         <tr>
                             <th>Lieu</th>
-                            <td>{{ event.lieu }}</td>
+                            <td>
+                                {{ event.lieu }}
+                                {% if event.lieu is not empty %}
+                                    <a href="https://www.google.com/maps/search/?api=1&query={{ event.lieu | url_encode }}" 
+                                       target="_blank" 
+                                       class="btn btn-sm btn-outline-primary ml-3">
+                                        📍 Voir la localisation
+                                    </a>
+                                {% endif %}
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -40,4 +49,57 @@
         <!-- Boutons d'actions -->
         <a href="{{ path('app_event_index') }}" class="btn btn-secondary">← Back to list</a>
     </div>
+
+    <!-- Api google map -->
+
+<script src="https://maps.googleapis.com/maps/api/js?key=TA_CLÉ_API&libraries=places&callback=initMap" async defer></script>
+
+<script>
+    let map;
+    let marker;
+
+    function initMap() {
+        const defaultLocation = { lat: 36.8065, lng: 10.1815 }; // exemple: Tunis
+
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: defaultLocation,
+            zoom: 13,
+        });
+
+        marker = new google.maps.Marker({
+            position: defaultLocation,
+            map: map,
+            draggable: true,
+        });
+
+        // Si l'utilisateur clique sur la carte, déplacer le marker
+        map.addListener("click", function (event) {
+            marker.setPosition(event.latLng);
+            updateInputFromMarker(event.latLng);
+        });
+
+        // Si l'utilisateur bouge le marker
+        marker.addListener("dragend", function (event) {
+            updateInputFromMarker(event.latLng);
+        });
+
+        // Autocomplete Google Places
+        const autocompleteInput = document.getElementById("autocomplete");
+        const autocomplete = new google.maps.places.Autocomplete(autocompleteInput);
+        autocomplete.addListener("place_changed", function () {
+            const place = autocomplete.getPlace();
+            if (place.geometry) {
+                map.setCenter(place.geometry.location);
+                marker.setPosition(place.geometry.location);
+            }
+        });
+    }
+
+    function updateInputFromMarker(latLng) {
+        // Si tu veux que le champ "lieu" affiche aussi les coordonnées
+        document.getElementById("autocomplete").value = `Lat: ${latLng.lat().toFixed(5)}, Lng: ${latLng.lng().toFixed(5)}`;
+    }
+</script>
+
+
 {% endblock %}

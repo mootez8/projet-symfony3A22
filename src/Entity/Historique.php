@@ -57,7 +57,7 @@ class Historique
         return $this;
     }
 
-    #[ORM\Column(type: 'integer', nullable: false)]
+    #[ORM\Column(name: "idEvent", type: 'integer', nullable: false)]
     private ?int $idEvent = null;
 
     public function getIdEvent(): ?int

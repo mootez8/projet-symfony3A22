@@ -16,6 +16,16 @@ class HistoriqueRepository extends ServiceEntityRepository
         parent::__construct($registry, Historique::class);
     }
 
+    public function searchByActionOrDetails(string $searchTerm): array
+{
+    return $this->createQueryBuilder('h')
+        ->where('h.action LIKE :term')
+        ->orWhere('h.details LIKE :term')
+        ->setParameter('term', '%' . $searchTerm . '%')
+        ->orderBy('h.date_action', 'DESC')
+        ->getQuery()
+        ->getResult();
+}
     //    /**
     //     * @return Historique[] Returns an array of Historique objects
     //     */

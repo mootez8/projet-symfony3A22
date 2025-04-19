@@ -7,6 +7,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+
 
 class SponsorType extends AbstractType
 {
@@ -27,9 +29,11 @@ class SponsorType extends AbstractType
             ->add('contribution',TextType::class, [
                 'label' => 'Contribution',
                 'required' => true,
+                'invalid_message' => 'Veuillez saisir un nombre valide pour la contribution.',
                 'empty_data' => '0', 
             ])
         ;
+        
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -1,0 +1,67 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Historique des actions{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="mb-4">Historique des actions</h1>
+
+        <!-- Formulaire de recherche -->
+        <form method="get" action="{{ path('app_historique_index') }}" class="mb-4">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control" placeholder="Rechercher une action ou un détail" value="{{ searchTerm }}">
+                <button type="submit" class="btn btn-primary">Rechercher</button>
+            </div>
+        </form>
+
+        <!-- Table des historiques des événements -->
+        <div class="card">
+            <h5 class="card-header">Liste des actions historiques</h5>
+            <div class="card-body">
+                <table class="table table-bordered table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Action</th>
+                            <th>Date</th>
+                            <th>Détails</th>
+                            <th>ID Event</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-dark"> <!-- Ajout d'une classe pour forcer la couleur noire -->
+                        {% for historique in historiques %}
+                            <tr>
+                                <td>{{ historique.action }}</td>
+                                <td>{{ historique.dateAction|date('Y-m-d H:i') }}</td>
+                                <td>{{ historique.details }}</td>
+                                <td>{{ historique.idEvent }}</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="4" class="text-center">Aucune action trouvée.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <!-- Pagination -->
+                <div class="d-flex justify-content-between">
+                    <div>
+                        {% if currentPage > 1 %}
+                            <a href="{{ path('app_historique_index', { page: currentPage - 1, search: searchTerm }) }}" class="btn btn-secondary">Précédent</a>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        Page {{ currentPage }} sur {{ totalPages }}
+                    </div>
+
+                    <div>
+                        {% if currentPage < totalPages %}
+                            <a href="{{ path('app_historique_index', { page: currentPage + 1, search: searchTerm }) }}" class="btn btn-secondary">Suivant</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
