@@ -28,8 +28,8 @@ class Reclamation
     }
 
     #[ORM\Column(type: 'string', nullable: false)]
-    #[Assert\NotBlank(message: "Le nom d'utilisateur ne peut pas être vide.")]
-    #[Assert\Length(min: 2, max: 50, minMessage: "Le nom d'utilisateur doit comporter au moins {{ limit }} caractères.", maxMessage: "Le nom d'utilisateur ne peut pas comporter plus de {{ limit }} caractères.")]
+    #[Assert\NotBlank(message: "Le nom d'utilisateur ne peut pas être vide!!!!!.")]
+    #[Assert\Length(min: 3, max: 50, minMessage: "Le nom d'utilisateur doit comporter au moins {{ limit }} caractères.", maxMessage: "Le nom d'utilisateur ne peut pas comporter plus de {{ limit }} caractères.")]
     private ?string $nom_utilisateur = null;
 
     public function getNom_utilisateur(): ?string
@@ -74,8 +74,8 @@ class Reclamation
     }
 
     #[ORM\Column(type: 'string', nullable: false)]
-    #[Assert\NotBlank(message: "La description ne peut pas être vide.")]
-    #[Assert\Length(min: 10, max: 500, minMessage: "La description doit comporter au moins {{ limit }} caractères.", maxMessage: "La description ne peut pas comporter plus de {{ limit }} caractères.")]
+    #[Assert\NotBlank(message: "La reclamation ne peut pas être vide !!!!.")]
+    #[Assert\Length(min: 10, max: 500, minMessage: "La reclamation doit comporter au moins {{ limit }} caractères.", maxMessage: "La description ne peut pas comporter plus de {{ limit }} caractères.")]
     private ?string $description = null;
 
     public function getDescription(): ?string
@@ -117,6 +117,20 @@ class Reclamation
     public function setNomUtilisateur(string $nom_utilisateur): self
     {
         $this->nom_utilisateur = $nom_utilisateur;
+        return $this;
+    }
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $etat = 'Non Répondu'; // Déclaration de la propriété etat
+
+    public function getEtat(): ?string
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(?string $etat): self
+    {
+        $this->etat = $etat;
         return $this;
     }
 }

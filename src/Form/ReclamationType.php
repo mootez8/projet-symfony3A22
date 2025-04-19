@@ -22,6 +22,7 @@ class ReclamationType extends AbstractType
                 'label' => 'Nom de l\'utilisateur',
                 'label_attr' => [
                     'class' => 'font-weight-bold', // Mettre le label en gras
+                     'style' => 'color: #000;'
                 ],
                 'attr' => [
                     'class' => 'form-control form-control-lg',  // Utiliser une taille de champ plus large
@@ -35,6 +36,7 @@ class ReclamationType extends AbstractType
                 'label' => 'Adresse e-mail',
                 'label_attr' => [
                     'class' => 'font-weight-bold', // Mettre le label en gras
+                    'style' => 'color: #000;'
                 ],
                 'attr' => [
                     'class' => 'form-control form-control-lg',
@@ -46,9 +48,10 @@ class ReclamationType extends AbstractType
             ])
             // Champ "Description" avec plusieurs lignes et une hauteur spécifique
             ->add('description', TextareaType::class, [
-                'label' => 'Description de la réclamation',
+                'label' => '  Reclamation',
                 'label_attr' => [
                     'class' => 'font-weight-bold',  // Mettre le label en gras
+                    'style' => 'color: #000;'
                 ],
                 'attr' => [
                     'class' => 'form-control form-control-lg',
@@ -60,9 +63,10 @@ class ReclamationType extends AbstractType
             ])
             // Champ "Catégorie" avec une sélection
             ->add('categorie', ChoiceType::class, [
-                'label' => 'Catégorie',
+                'label' => 'problème',
                 'label_attr' => [
                     'class' => 'font-weight-bold', // Mettre le label en gras
+                    'style' => 'color: #000;'
                 ],
                 'choices' => [
                     'Bug Technique' => 'bug_technique',
@@ -76,14 +80,19 @@ class ReclamationType extends AbstractType
                 ],
                 'required' => true, // Champ obligatoire
             ])
-            // Champ bouton "Soumettre" avec des améliorations de style
             ->add('submit', SubmitType::class, [
-                'label' => 'Soumettre la réclamation',
+                'label' => '📨 Soumettre la réclamation',
                 'attr' => [
-                    'class' => 'btn btn-primary btn-lg btn-block mt-4',  // Bouton large et bloc
-                    'aria-label' => 'Soumettre',  // Accessibilité
+                    'class' => 'btn btn-primary btn-md btn-block mt-4 mb-5',
+                    'aria-label' => 'Soumettre',
                 ],
             ])
+            
+           
+             
+            
+            
+            
         ;
     }
 

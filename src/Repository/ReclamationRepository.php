@@ -40,4 +40,16 @@ class ReclamationRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+public function getStatistiquesParCategorie()
+{
+    // Créer une requête pour récupérer le nombre de réclamations par catégorie
+    return $this->createQueryBuilder('r')
+        ->select('r.categorie, COUNT(r.id_reclamation) AS total')
+        ->groupBy('r.categorie')
+        ->orderBy('total', 'DESC')  // Optionnel, pour trier par nombre décroissant
+        ->getQuery()
+        ->getResult();
+}
+
 }

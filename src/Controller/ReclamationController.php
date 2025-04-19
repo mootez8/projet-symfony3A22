@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/reclamation')]
 final class ReclamationController extends AbstractController
 {
-    // Affiche la liste de toutes les réclamations
+    
     #[Route(name: 'app_reclamation_index', methods: ['GET'])]
     public function index(ReclamationRepository $reclamationRepository): Response
     {
@@ -35,7 +35,7 @@ final class ReclamationController extends AbstractController
             $entityManager->persist($reclamation);
             $entityManager->flush();
             $this->addFlash('success', 'Réclamation envoyée avec succès.');
-            return $this->redirectToRoute('app_reclamation_index');
+           
         }
 
         return $this->render('reclamation/new.html.twig', [
@@ -70,7 +70,7 @@ final class ReclamationController extends AbstractController
         ]);
     }
 
-    // Supprimer une réclamation
+    
     #[Route('/{id_reclamation}', name: 'app_reclamation_delete', methods: ['POST'])]
     public function delete(Request $request, Reclamation $reclamation, EntityManagerInterface $entityManager): Response
     {
@@ -82,6 +82,40 @@ final class ReclamationController extends AbstractController
         return $this->redirectToRoute('app_reclamation_index');
     }
 
+
+
+
+    #[Route('/statistiques', name: 'app_reclamation_statistiques')]
+    public function statistiques(ReclamationRepository $reclamationRepository): Response
+    {
+        // Récupérer les réclamations groupées par catégorie
+        $statistiques = $reclamationRepository->getStatistiquesParCategorie();
+    
+        // Affichage des statistiques
+        return $this->render('reclamation/statistiques.html.twig', [
+            'statistiques' => $statistiques,
+        ]);
+    }
+
+
+
+    #[Route('/{id_reclamation}', name: 'app_reclamation_show', methods: ['GET'])]
+public function show_statistique(ReclamationRepository $reclamationRepository, $id_reclamation): Response
+{
+    $reclamation = $reclamationRepository->find($id_reclamation);
+    if (!$reclamation) {
+        throw $this->createNotFoundException('La réclamation avec l\'ID ' . $id_reclamation . ' n\'a pas été trouvée.');
+    }
+
+    return $this->render('reclamation/show.html.twig', [
+        'reclamation' => $reclamation,
+    ]);
+}
+
+
+
+
+    
     
    
     

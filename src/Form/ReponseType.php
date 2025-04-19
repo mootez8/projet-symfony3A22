@@ -17,16 +17,7 @@ class ReponseType extends AbstractType
     {
         
         $builder
-            // Ajouter le champ id_reclamation comme texte en lecture seule
-            ->add('id_reclamation', TextType::class, [
-                'label' => 'ID de la réclamation',
-            
-                'attr' => [
-                    'readonly' => 'readonly',  // Rendre le champ non modifiable
-                    'class' => 'form-control',
-                ],
-                'disabled' => false, // Optionnel si tu veux aussi le désactiver dans le formulaire
-            ])
+           
             // Ajouter le champ pour la réponse (utilisation de TextareaType pour une plus grande zone de saisie)
             ->add('reponse', TextareaType::class, [
                 'label' => 'Votre réponse',

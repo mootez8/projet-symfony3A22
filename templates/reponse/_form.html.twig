@@ -1,26 +1,6 @@
 {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 
-    {# Champ "id_reclamation" avec style personnalisé #}
-    <div class="form-group" style="margin-bottom: 20px;">
-        <label style="color: #007bff; font-weight: bold;">
-            {{ form_label(form.id_reclamation) }}
-        </label>
-        {{ form_widget(form.id_reclamation, {
-            'attr': {
-                'class': 'form-control',
-                'style': 'background-color: #f0f8ff; border: 2px solid #007bff;'
-            }
-        }) }}
-
-        {% if form.id_reclamation.vars.errors|length > 0 %}
-            <div class="text-danger text-center mt-2">
-                {{ form_errors(form.id_reclamation) }}
-            </div>
-        {% endif %}
-
-
-        
-    </div>
+  
 
     {# Champ "reponse" avec style personnalisé #}
     <div class="form-group" style="margin-bottom: 20px;">

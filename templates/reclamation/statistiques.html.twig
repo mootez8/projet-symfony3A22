@@ -1,0 +1,131 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Statistiques par Catégorie{% endblock %}
+
+{% block body %}
+    <h1 class="text-center" style="margin-top: 80px; margin-bottom: 40px;">
+    Statistiques des Réclamations 
+</h1>
+
+
+    <div class="container mt-4 text-center">
+        <!-- Section pour le graphique avec une taille moyenne -->
+        <canvas id="statistiquesPieChart" width="500" height="500"></canvas>
+    </div>
+
+    {# Optionnel: Affichage des statistiques sous forme de tableau #}
+    <div class="container mt-4">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col" class="font-weight-bold">Catégorie</th>
+                    <th scope="col" class="font-weight-bold">Nombre de réclamations</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for statistique in statistiques %}
+                    <tr>
+                        <td class="font-weight-bold">{{ statistique.categorie }}</td>
+                        <td class="font-weight-bold">{{ statistique.total }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {# Inclure Chart.js depuis un CDN #}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Récupérer les données depuis le backend
+        var data = {
+            labels: [
+                {% for statistique in statistiques %}
+                    "{{ statistique.categorie }}"{% if not loop.last %}, {% endif %}
+                {% endfor %}
+            ],
+            datasets: [{
+                data: [
+                    {% for statistique in statistiques %}
+                        {{ statistique.total }}{% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                ],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.7)',
+                    'rgba(54, 162, 235, 0.7)',
+                    'rgba(255, 206, 86, 0.7)',
+                    'rgba(75, 192, 192, 0.7)',
+                    'rgba(153, 102, 255, 0.7)',
+                    'rgba(255, 159, 64, 0.7)',
+                    'rgba(255, 99, 132, 0.7)',
+                    'rgba(54, 162, 235, 0.7)',
+                    'rgba(255, 206, 86, 0.7)',
+                    'rgba(75, 192, 192, 0.7)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        var ctx = document.getElementById('statistiquesPieChart').getContext('2d');
+        var myPieChart = new Chart(ctx, {
+            type: 'pie', // Type de graphique (ici un pie chart)
+            data: data,
+            options: {
+                responsive: true, // Laisser Chart.js ajuster la taille en fonction du conteneur
+                maintainAspectRatio: false, // Permet de désactiver le ratio pour un redimensionnement flexible
+                plugins: {
+                    legend: {
+                        position: 'bottom',  // Position des légendes en bas pour un look moderne
+                        labels: {
+                            font: {
+                                family: "'Roboto', sans-serif",  // Typographie moderne
+                                size: 16  // Augmentation de la taille de la police de la légende
+                            },
+                            boxWidth: 20,  // Augmenter la taille des boîtes de légende
+                            padding: 15  // Augmenter l'espacement entre les éléments de légende
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.7)', // Fond sombre pour l'info-bulle
+                        titleFont: {
+                            family: "'Roboto', sans-serif",  // Typographie moderne
+                            size: 12  // Taille du titre des tooltips
+                        },
+                        bodyFont: {
+                            family: "'Roboto', sans-serif",
+                            size: 10  // Taille du corps des tooltips
+                        },
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.label + ': ' + tooltipItem.raw;
+                            }
+                        }
+                    }
+                },
+                animation: {
+                    animateRotate: true,  // Animation de rotation lors du chargement
+                    animateScale: true,   // Animation de mise à l'échelle
+                },
+                layout: {
+                    padding: {
+                        left: 10,
+                        right: 10,
+                        top: 10,
+                        bottom: 10
+                    }
+                }
+            }
+        });
+    </script>
+{% endblock %}
