@@ -1,0 +1,51 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Edit Trajet{% endblock %}
+
+{% block content %}
+  <div class="container-fluid">
+    <h1 class="mb-4">Edit Trajet</h1>
+
+    <div class="card p-4">
+      <div class="card-body">
+        {{ form_start(form) }}
+
+        <div class="row mb-3">
+          <div class="col-md-6">{{ form_row(form.departure) }}</div>
+          <div class="col-md-6">{{ form_row(form.destination) }}</div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-6">{{ form_row(form.schedule) }}</div>
+          <div class="col-md-6">{{ form_row(form.price) }}</div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-6">{{ form_row(form.created) }}</div>
+          <div class="col-md-6">{{ form_row(form.rating) }}</div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-6">{{ form_row(form.statut) }}</div>
+        
+        </div>
+
+        <div class="mb-3">
+          {{ form_row(form.transport) }}
+        </div>
+
+        <div class="mt-4">
+          <button type="submit" class="btn btn-warning btn-lg"><i class="mdi mdi-pencil"></i> Update Trajet</button>
+          <a href="{{ path('app_trajet_index') }}" class="btn btn-secondary btn-lg ml-3"><i class="mdi mdi-arrow-left"></i> Back to Trajet List</a>
+        </div>
+
+        {{ form_end(form) }}
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <h5>Delete Trajet</h5>
+      {{ include('trajet/_delete_form.html.twig') }}
+    </div>
+  </div>
+{% endblock %}

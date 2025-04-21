@@ -1,0 +1,59 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Trajet List{% endblock %}
+
+{% block content %}
+  <div class="container-fluid">
+    <h1 class="mb-4">Trajet List</h1>
+    <form method="get" class="mb-3 d-flex gap-3">
+  <input type="text" name="departure" class="form-control" placeholder="Search by Departure" value="{{ departure }}">
+  <input type="text" name="destination" class="form-control" placeholder="Search by Destination" value="{{ destination }}">
+  <button type="submit" class="btn btn-primary">Search</button>
+  </form>
+    <div class="card p-4">
+      <div class="card-body">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Departure</th>
+              <th>Destination</th>
+              <th>Schedule</th>
+              <th>Price</th>
+              <th>Statut</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for trajet in trajets %}
+              <tr>
+                <td>{{ trajet.id }}</td>
+                <td>{{ trajet.departure }}</td>
+                <td>{{ trajet.destination }}</td>
+                <td>{{ trajet.schedule }}</td>
+                <td>{{ trajet.price }}</td>
+                <td>{{ trajet.statut }}</td>
+                <td>
+                  <a href="{{ path('app_trajet_show', {'id': trajet.id}) }}" class="btn btn-info btn-sm"><i class="mdi mdi-eye"></i> Show</a>
+                  <a href="{{ path('app_trajet_edit', {'id': trajet.id}) }}" class="btn btn-warning btn-sm ml-2"><i class="mdi mdi-pencil"></i> Edit</a>
+                  <form method="post" action="{{ path('app_trajet_delete', {'id': trajet.id}) }}" style="display:inline;">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ trajet.id) }}">
+                    <button type="submit" class="btn btn-danger btn-sm ml-2"><i class="mdi mdi-delete"></i> Delete</button>
+                  </form>
+                </td>
+              </tr>
+            {% else %}
+              <tr>
+                <td colspan="7" class="text-center">No records found</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        <a href="{{ path('app_trajet_new') }}" class="btn btn-success mt-4">
+          <i class="mdi mdi-plus"></i> Create New Trajet
+        </a>
+      </div>
+    </div>
+  </div>
+{% endblock %}

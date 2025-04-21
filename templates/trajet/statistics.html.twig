@@ -1,0 +1,84 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Trajet Statistics{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+  <h1 class="mb-4">Trajet Statistics by Departure & Destination</h1>
+
+  <div class="mb-5">
+    <h4>Departures</h4>
+    <div style="max-width: 600px; margin: auto;">
+  <canvas id="departureBarChart"></canvas>
+</div>
+  </div>
+
+  <div class="mb-5">
+    <h4>Destinations</h4>
+    <div style="max-width: 600px; margin: auto;">
+  <canvas id="destinationBarChart"></canvas>
+</div>
+  </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const departureCtx = document.getElementById('departureBarChart').getContext('2d');
+  const destinationCtx = document.getElementById('destinationBarChart').getContext('2d');
+
+  new Chart(departureCtx, {
+    type: 'bar',
+    data: {
+      labels: {{ departureLabels|raw }},
+      datasets: [{
+        label: 'Number of Departures',
+        data: {{ departureCounts|raw }},
+        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+    responsive: true,
+    scales: {
+        y: {
+            beginAtZero: true,
+            stepSize: 1,
+            ticks: {
+                precision: 0
+            }
+        }
+    }
+}
+  });
+
+  new Chart(destinationCtx, {
+    type: 'bar',
+    data: {
+      labels: {{ destinationLabels|raw }},
+      datasets: [{
+        label: 'Number of Destinations',
+        data: {{ destinationCounts|raw }},
+        backgroundColor: 'rgba(255, 99, 132, 0.6)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+    responsive: true,
+    scales: {
+        y: {
+            beginAtZero: true,
+            stepSize: 1,
+            ticks: {
+                precision: 0
+            }
+        }
+    }
+}
+  });
+</script>
+{% endblock %}

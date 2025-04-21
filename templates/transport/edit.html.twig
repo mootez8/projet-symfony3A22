@@ -1,0 +1,73 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Edit Transport{% endblock %}
+
+{% block content %}
+  <div class="container-fluid">
+    <h1 class="mb-4">Edit Transport</h1>
+
+    <div class="card p-4">
+      <div class="card-body">
+        {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+        
+        <div class="row mb-3">
+          <div class="col-md-6">
+            {{ form_row(form.capacityTransport, {
+              'label': 'Transport Capacity',
+              'attr': {'class': 'form-control'}
+            }) }}
+          </div>
+          <div class="col-md-6">
+            {{ form_row(form.typeTransport, {
+              'label': 'Transport Type',
+              'attr': {'class': 'form-control'}
+            }) }}
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-6">
+            {{ form_row(form.statusTransport, {
+              'label': 'Status',
+              'attr': {'class': 'form-control'}
+            }) }}
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-6">
+            {{ form_row(form.image, {
+              'label': 'Upload New Image (optional)',
+              'attr': {'class': 'form-control'}
+            }) }}
+          </div>
+        </div>
+
+        {% if transport.image %}
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label>Current Image:</label><br>
+              <img src="{{ asset('uploads/' ~ transport.image) }}" alt="Current image" width="150">
+            </div>
+          </div>
+        {% endif %}
+
+        <div class="mt-4">
+          <button type="submit" class="btn btn-warning btn-lg">
+            <i class="mdi mdi-pencil"></i> Update Transport
+          </button>
+          <a href="{{ path('app_transport_index') }}" class="btn btn-secondary btn-lg ml-3">
+            <i class="mdi mdi-arrow-left"></i> Back to Transport List
+          </a>
+        </div>
+
+        {{ form_end(form) }}
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <h5>Delete Transport</h5>
+      {{ include('transport/_delete_form.html.twig') }}
+    </div>
+  </div>
+{% endblock %}

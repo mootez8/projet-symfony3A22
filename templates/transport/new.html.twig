@@ -1,0 +1,50 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Create New Transport{% endblock %}
+
+{% block content %}
+  <div class="container-fluid">
+    <h1 class="mb-4">Create New Transport</h1>
+
+    <div class="card p-4">
+      <div class="card-body">
+        {{ form_start(form) }}
+        
+        <div class="row mb-3">
+          <div class="col-md-6">
+            {{ form_row(form.capacityTransport, {
+              'label': 'Transport Capacity',
+              'attr': {'class': 'form-control'}
+            }) }}
+          </div>
+          <div class="col-md-6">
+            {{ form_row(form.typeTransport, {
+              'label': 'Transport Type',
+              'attr': {'class': 'form-control'}
+            }) }}
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-6">
+            {{ form_row(form.statusTransport, {
+              'label': 'Status',
+              'attr': {'class': 'form-control'}
+            }) }}
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <button type="submit" class="btn btn-success btn-lg">
+            <i class="mdi mdi-check"></i> Save Transport
+          </button>
+          <a href="{{ path('app_transport_index') }}" class="btn btn-secondary btn-lg ml-3">
+            <i class="mdi mdi-arrow-left"></i> Back to Transport List
+          </a>
+        </div>
+
+        {{ form_end(form) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}
