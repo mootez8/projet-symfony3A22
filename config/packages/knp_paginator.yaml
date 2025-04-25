@@ -1,0 +1,9 @@
+knp_paginator:
+    page_range: 5          # Nombre de pages à afficher autour de la page courante
+    default_options:
+        page_name: 'page'  # Nom du paramètre de la page (dans l'URL)
+        sort_field_name: 'sort'  # Nom du paramètre pour trier
+        sort_direction_name: 'direction'  # Nom du paramètre pour la direction du tri
+        distinct: true      # Si true, supprime les doublons
+    template:
+        pagination: '@KnpPaginator/Pagination/twitter_bootstrap_v4.html.twig' # Template de pagination

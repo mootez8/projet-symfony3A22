@@ -11,41 +11,40 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-
-use Doctrine\ORM\Tools\Pagination\Paginator;
+use Knp\Component\Pager\PaginatorInterface;
+//use Doctrine\ORM\Tools\Pagination\Paginator;
 
 #[Route('/event')]
 final class EventController extends AbstractController
 {
+   
     #[Route(name: 'app_event_index', methods: ['GET'])]
-    public function index(EventRepository $eventRepository, Request $request): Response
-{
-    
-    $pageSize = 3;
-    $currentPage = $request->query->getInt('page', 1); 
+    public function index(EventRepository $eventRepository, Request $request, PaginatorInterface $paginator): Response
+    {
+        // Nombre d'événements par page
+        $pageSize = 3;
+        $currentPage = $request->query->getInt('page', 1); // Page courante, par défaut la première page
 
-    // Calcul du début de la requête
-    $query = $eventRepository->createQueryBuilder('e')
-        ->orderBy('e.dateEvent', 'DESC') 
-        ->getQuery();
+        // Calcul du début de la requête
+        $query = $eventRepository->createQueryBuilder('e')
+            ->orderBy('e.dateEvent', 'DESC') // Trier les événements par date
+            ->getQuery();
 
-    // Pagination avec Doctrine
-    $paginator = new Paginator($query);
-    $paginator->getQuery()
-        ->setFirstResult($pageSize * ($currentPage - 1)) 
-        ->setMaxResults($pageSize); // Nombre d'éléments par page
+        // Utilisation de KnpPaginatorBundle pour la pagination
+        $pagination = $paginator->paginate(
+            $query, // La requête que tu souhaites paginer
+            $currentPage, // Le numéro de la page courante
+            $pageSize // Nombre d'éléments par page
+        );
 
-    $totalItems = count($paginator); // Nombre total d'événements
-    $totalPages = ceil($totalItems / $pageSize); // Nombre total de pages
-
-    return $this->render('event/indexFrontEvent.html.twig', [
-        'events' => $paginator,
-        'currentPage' => $currentPage,
-        'totalPages' => $totalPages,
-    ]);
-}
+        return $this->render('event/indexFrontEvent.html.twig', [
+            'events' => $pagination,
+            'currentPage' => $currentPage,
+            'totalPages' => $pagination->getPageCount(),
+        ]);
+    }
     #[Route('/eventBack', name: 'app_event_indexBack', methods: ['GET'])]
-    public function indexBack(Request $request, EventRepository $eventRepository): Response
+    public function indexBack(Request $request, EventRepository $eventRepository, PaginatorInterface $paginator): Response
     {
         $searchTerm = $request->query->get('search');
     
@@ -54,20 +53,22 @@ final class EventController extends AbstractController
         } else {
             $allEvents = $eventRepository->findAll();
         }
-    
-        $page = $request->query->getInt('page', 1); // page actuelle
-        $limit =7; // éléments par page
-        $totalEvents = count($allEvents);
-        $offset = ($page - 1) * $limit;
-    
-        $events = array_slice($allEvents, $offset, $limit);
-    
-        $totalPages = ceil($totalEvents / $limit);
+
+        // Pagination
+        $page = $request->query->getInt('page', 1); // Page actuelle
+        $limit = 7; // Nombre d'éléments par page
+
+        // Utilisation du KnpPaginatorBundle pour paginer les résultats
+        $pagination = $paginator->paginate(
+            $allEvents, // Liste des événements
+            $page, // Numéro de la page
+            $limit // Nombre d'événements par page
+        );
     
         return $this->render('event/index.html.twig', [
-            'events' => $events,
+            'events' => $pagination,
             'currentPage' => $page,
-            'totalPages' => $totalPages,
+            'totalPages' => $pagination->getPageCount(),
             'searchTerm' => $searchTerm,
         ]);
     }
@@ -87,7 +88,8 @@ final class EventController extends AbstractController
              // Enregistrement dans la table Historique
                     $historique = new Historique();
                     $historique->setAction('Ajout');
-                    $historique->setDateAction(new \DateTime());
+                    $datetime = new \DateTime('now', new \DateTimeZone('Africa/Tunis'));
+                    $historique->setDateAction($datetime);
                     $historique->setIdEvent($event->getIdEvent());
                     $historique->setDetails('Ajout de l\'événement : ' . $event->getNomEv()); 
 

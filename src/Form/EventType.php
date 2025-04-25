@@ -57,11 +57,7 @@ class EventType extends AbstractType
             'label' => 'Lieu',
             'required' => true,
             'empty_data' => '', 
-            'attr' => [
-                'id' => 'autocomplete', // pour Google Places Autocomplete
-                'placeholder' => 'Entrez un lieu',
-                'class' => 'form-control',
-            ]
+           
         ])
             ->add('sponsor', EntityType::class, [  
                 'class' => Sponsor::class,      
