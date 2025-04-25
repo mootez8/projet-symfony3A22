@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\TranslateService; 
 
 #[Route('/reclamation')]
 final class ReclamationController extends AbstractController
@@ -113,6 +114,42 @@ public function show_statistique(ReclamationRepository $reclamationRepository, $
 }
 
 
+#[Route('/reclamation/search', name: 'app_reclamation_search', methods: ['GET'])]
+public function search(Request $request, ReclamationRepository $reclamationRepository): Response
+{
+    $search = $request->query->get('search');
+
+    if ($search) {
+        $reclamations = $reclamationRepository->searchByNomOrEmail($search);
+    } else {
+        $reclamations = $reclamationRepository->findAll();
+    }
+
+    return $this->render('reclamation/index.html.twig', [
+        'reclamations' => $reclamations,
+    ]);
+}
+
+
+
+#[Route('/{id_reclamation}/translate', name: 'app_reclamation_translate', methods: ['GET'])]
+public function translate(ReclamationRepository $reclamationRepository, TranslateService $translateService, int $id_reclamation): Response
+{
+    $reclamation = $reclamationRepository->find($id_reclamation);
+
+    if (!$reclamation) {
+        throw $this->createNotFoundException('Réclamation introuvable.');
+    }
+
+    // Suppose que tu veux traduire la description
+    $contenu = $reclamation->getDescription(); // ou getContenu(), selon ta classe
+    $translated = $translateService->translateLongText($contenu, 'fr', 'en');
+
+    return $this->render('reclamation/translated.html.twig', [
+        'reclamation' => $reclamation,
+        'translated' => $translated,
+    ]);
+}
 
 
     

@@ -52,4 +52,34 @@ public function getStatistiquesParCategorie()
         ->getResult();
 }
 
+
+
+public function searchByNomOrEmail(string $search): array
+{
+    return $this->createQueryBuilder('r')
+        ->where('LOWER(r.nom_utilisateur) LIKE :search')
+        ->orWhere('LOWER(r.email) LIKE :search')
+        ->setParameter('search', '%' . strtolower($search) . '%')
+        
+        ->getQuery()
+        ->getResult();
+}
+
+
+
+
+public function findOldNonRepondu(\DateTimeInterface $limitDate): array
+{
+    return $this->createQueryBuilder('r')
+        ->andWhere('r.statut = :statut')
+        ->andWhere('r.createdAt <= :limitDate')
+        ->setParameter('statut', 'non_repondu')
+        ->setParameter('limitDate', $limitDate)
+        ->getQuery()
+        ->getResult();
+}
+
+
+
+
 }

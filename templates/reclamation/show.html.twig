@@ -39,6 +39,9 @@
     <div style="text-align: center; margin-top: 30px;">
         <a href="{{ path('app_reclamation_index') }}" style="margin-right: 20px; font-size: 18px; color: #007bff; text-decoration: none; font-weight: bold;">← Retour à la liste</a>
         <a href="{{ path('app_reclamation_edit', {'id_reclamation': reclamation.id_reclamation}) }}" style="margin-right: 20px; font-size: 18px; color: #28a745; text-decoration: none; font-weight: bold;">✏️ Modifier</a>
+         <a href="{{ path('app_reclamation_translate', {'id_reclamation': reclamation.idReclamation}) }}" style="margin-right: 20px; font-size: 18px; color: #17a2b8; text-decoration: none; font-weight: bold;">
+        🌍 Traduire en anglais
+    </a>
 
         <div style="margin-top: 20px;">
             {{ include('reclamation/_delete_form.html.twig') }}

@@ -94,7 +94,7 @@ final class ReponseController extends AbstractController
             // Appel à la méthode du service EmailService pour envoyer l'email
             $this->emailService->sendResponseEmail($recipient, $subject, $body);
     
-            return $this->redirectToRoute('app_reponse_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_reponse_new', [], Response::HTTP_SEE_OTHER);
         }
     
         return $this->render('reponse/new.html.twig', [

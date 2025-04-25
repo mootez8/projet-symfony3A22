@@ -1,0 +1,16 @@
+{% extends 'base-back.html.twig' %}
+
+{% block title %}Traduction de la Réclamation{% endblock %}
+
+{% block body %}
+    <h1>Traduction de la Réclamation #{{ reclamation.idReclamation }}</h1>
+
+    <h3>Texte original :</h3>
+    <div style="white-space: pre-line;">{{ reclamation.description }}</div>
+
+    <h3>Traduction anglaise :</h3>
+    <div style="white-space: pre-line;">{{ translated }}</div>
+
+    <br>
+    <a href="{{ path('app_reclamation_show', {'id_reclamation': reclamation.idReclamation}) }}">⬅️ Retour à la réclamation</a>
+{% endblock %}
