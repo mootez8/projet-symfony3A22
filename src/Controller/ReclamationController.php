@@ -33,6 +33,7 @@ final class ReclamationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $reclamation->setUser($this->getUser());
             $entityManager->persist($reclamation);
             $entityManager->flush();
             $this->addFlash('success', 'Réclamation envoyée avec succès.');
@@ -141,7 +142,7 @@ public function translate(ReclamationRepository $reclamationRepository, Translat
         throw $this->createNotFoundException('Réclamation introuvable.');
     }
 
-    // Suppose que tu veux traduire la description
+    /// Suppose que tu veux traduire la description
     $contenu = $reclamation->getDescription(); // ou getContenu(), selon ta classe
     $translated = $translateService->translateLongText($contenu, 'fr', 'en');
 
@@ -151,10 +152,6 @@ public function translate(ReclamationRepository $reclamationRepository, Translat
     ]);
 }
 
-
-    
-    
-   
     
 
 }

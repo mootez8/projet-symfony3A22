@@ -1,0 +1,17 @@
+{% extends 'base.front.html.twig' %}
+
+{% block title %}Mes Réclamations{% endblock %}
+
+{% block body %}
+    <h1>Mes Réclamations</h1>
+
+    {% if reclamations is empty %}
+        <p>Vous n'avez pas encore de réclamations.</p>
+    {% else %}
+        <ul>
+            {% for reclamation in reclamations %}
+                <li>{{ reclamation.title }} - {{ reclamation.createdAt|date('d/m/Y') }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}
