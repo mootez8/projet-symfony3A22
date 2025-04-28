@@ -60,6 +60,23 @@ final class TrajetController extends AbstractController
             'destination' => $destination,
         ]);
     }
+    #[Route('/calendar', name: 'app_trajet_calendar', methods: ['GET'])]
+    public function calendar(TrajetRepository $trajetRepository): Response
+    {
+        $trajets = $trajetRepository->findAll();
+        $events = [];
+    
+        foreach ($trajets as $trajet) {
+            $events[] = [
+                'title' => $trajet->getDeparture() . ' ➔ ' . $trajet->getDestination(),
+                'start' => $trajet->getSchedule()->format('Y-m-d'), // ✅ clean ISO format for FullCalendar
+            ];
+        }
+    
+        return $this->render('trajet/calendar.html.twig', [
+            'events' => json_encode($events),
+        ]);
+    }
 
     #[Route('/new', name: 'app_trajet_new', methods: ['GET', 'POST'])]
 public function new(Request $request, EntityManagerInterface $entityManager, QrCodeService $qrCodeService): Response
@@ -73,8 +90,11 @@ public function new(Request $request, EntityManagerInterface $entityManager, QrC
         $entityManager->flush();
 
         // Now generate QR code and save it
-        $data = "Trajet ID: {$trajet->getId()}\nDeparture: {$trajet->getDeparture()}\nDestination: {$trajet->getDestination()}\nPrice: {$trajet->getPrice()}";
-
+        $data = "Trajet ID: {$trajet->getId()}\n" .
+        "Departure: {$trajet->getDeparture()}\n" .
+        "Destination: {$trajet->getDestination()}\n" .
+        "Schedule: " . ($trajet->getSchedule() ? $trajet->getSchedule()->format('d/m/Y H:i') : 'N/A') . "\n" .
+        "Price: {$trajet->getPrice()} TND";
         if ($trajet->getTransport() && $trajet->getTransport()->getImage()) {
             $data .= "\nImage: /uploads/" . $trajet->getTransport()->getImage();
         }

@@ -14,28 +14,54 @@ class Trajet
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 100)]
+    #[Assert\NotBlank(message: 'Departure cannot be empty.')]
+    #[Assert\Length(
+        min: 2,
+        max: 100,
+        minMessage: 'Departure must be at least {{ limit }} characters.',
+        maxMessage: 'Departure cannot be longer than {{ limit }} characters.'
+    )]
     private string $departure;
 
     #[ORM\Column(type: 'string', length: 100)]
+    #[Assert\NotBlank(message: 'Destination cannot be empty.')]
+    #[Assert\Length(
+        min: 2,
+        max: 100,
+        minMessage: 'Destination must be at least {{ limit }} characters.',
+        maxMessage: 'Destination cannot be longer than {{ limit }} characters.'
+    )]
     private string $destination;
 
-    #[ORM\Column(type: 'string', length: 100)]
-    private string $schedule;
+    #[ORM\Column(type: 'datetime')]
+#[Assert\NotNull(message: 'Schedule date is required.')]
+private ?\DateTimeInterface $schedule = null;
 
     #[ORM\Column(type: 'float')]
+    #[Assert\NotNull(message: 'Price must be provided.')]
+    #[Assert\Positive(message: 'Price must be a positive number.')]
     private float $price;
 
     #[ORM\Column(type: 'datetime')]
-    private \DateTimeInterface $created;
+    #[Assert\NotNull(message: 'Created date must be provided.')]
+    #[Assert\Type(type: \DateTimeInterface::class, message: 'Invalid date format.')]
+    private ?\DateTimeInterface $created;
 
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
     private ?string $statut = null;
 
     #[ORM\Column(type: 'integer')]
+    #[Assert\NotNull(message: 'Rating must be provided.')]
+    #[Assert\Range(
+        min: 0,
+        max: 5,
+        notInRangeMessage: 'Rating must be between {{ min }} and {{ max }}.'
+    )]
     private int $rating;
 
     #[ORM\ManyToOne(targetEntity: Transport::class, inversedBy: 'trajets')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull(message: 'Transport must be selected.')]
     private ?Transport $transport = null;
 
     
@@ -52,8 +78,8 @@ class Trajet
     public function getDestination(): string { return $this->destination; }
     public function setDestination(string $destination): self { $this->destination = $destination; return $this; }
 
-    public function getSchedule(): string { return $this->schedule; }
-    public function setSchedule(string $schedule): self { $this->schedule = $schedule; return $this; }
+    public function getSchedule(): ?\DateTimeInterface{return $this->schedule;}
+    public function setSchedule(\DateTimeInterface $schedule): self{$this->schedule = $schedule;return $this;}
 
     public function getPrice(): float { return $this->price; }
     public function setPrice(float $price): self { $this->price = $price; return $this; }

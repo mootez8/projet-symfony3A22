@@ -3,36 +3,66 @@
 {% block title %}Trajet Details{% endblock %}
 
 {% block content %}
-  <div class="container-fluid">
-    <h1 class="mb-4">Trajet Details</h1>
+<div class="container-fluid">
+  <h1 class="mb-4">Trajet Details</h1>
 
-    <div class="card p-4">
-      <div class="card-body">
-        <table class="table table-bordered">
-          <tbody>
-            <tr><th>Id</th><td>{{ trajet.id }}</td></tr>
-            <tr><th>Departure</th><td>{{ trajet.departure }}</td></tr>
-            <tr><th>Destination</th><td>{{ trajet.destination }}</td></tr>
-            <tr><th>Schedule</th><td>{{ trajet.schedule }}</td></tr>
-            <tr><th>Price</th><td>{{ trajet.price }}</td></tr>
-            <tr><th>Created</th><td>{{ trajet.created|date('Y-m-d H:i') }}</td></tr>
-            <tr><th>Statut</th><td>{{ trajet.statut }}</td></tr>
-            <tr><th>Rating</th><td>{{ trajet.rating }}</td></tr>
-            
-            <tr><th>Transport ID</th><td>{{ trajet.transport.id }}</td></tr>
-          </tbody>
-        </table>
+  <div class="card p-4">
+    <div class="card-body">
+      <table class="table table-bordered">
+        <tbody>
+          <tr><th>Id</th><td>{{ trajet.id }}</td></tr>
+          <tr><th>Departure</th><td>{{ trajet.departure }}</td></tr>
+          <tr><th>Destination</th><td>{{ trajet.destination }}</td></tr>
+          <tr>
+            <th>Schedule</th>
+            <td>
+              {% if trajet.schedule is not null %}
+                {{ trajet.schedule|date('Y-m-d H:i') }}
+              {% else %}
+                <em>No schedule</em>
+              {% endif %}
+            </td>
+          </tr>
+          <tr><th>Price</th><td>{{ trajet.price }} TND</td></tr>
+          <tr>
+            <th>Created</th>
+            <td>
+              {% if trajet.created is not null %}
+                {{ trajet.created|date('Y-m-d H:i') }}
+              {% else %}
+                <em>Not set</em>
+              {% endif %}
+            </td>
+          </tr>
+          <tr><th>Statut</th><td>{{ trajet.statut ?? 'N/A' }}</td></tr>
+          <tr><th>Rating</th><td>{{ trajet.rating }}</td></tr>
+          <tr>
+            <th>Transport</th>
+            <td>
+              {% if trajet.transport %}
+                Transport ID: {{ trajet.transport.id }}
+              {% else %}
+                <em>No Transport linked</em>
+              {% endif %}
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-        <div class="mt-4">
-          <a href="{{ path('app_trajet_index') }}" class="btn btn-secondary"><i class="mdi mdi-arrow-left"></i> Back</a>
-          <a href="{{ path('app_trajet_edit', {'id': trajet.id}) }}" class="btn btn-warning ml-2"><i class="mdi mdi-pencil"></i> Edit</a>
-        </div>
+      <div class="mt-4">
+        <a href="{{ path('app_trajet_index') }}" class="btn btn-secondary">
+          <i class="mdi mdi-arrow-left"></i> Back
+        </a>
+        <a href="{{ path('app_trajet_edit', {'id': trajet.id}) }}" class="btn btn-warning ml-2">
+          <i class="mdi mdi-pencil"></i> Edit
+        </a>
       </div>
     </div>
-
-    <div class="mt-4">
-      <h5>Delete Trajet</h5>
-      {{ include('trajet/_delete_form.html.twig') }}
-    </div>
   </div>
+
+  <div class="mt-4">
+    <h5>Delete Trajet</h5>
+    {{ include('trajet/_delete_form.html.twig') }}
+  </div>
+</div>
 {% endblock %}

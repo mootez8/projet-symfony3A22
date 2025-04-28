@@ -11,6 +11,9 @@
     <input type="text" name="departure" class="form-control w-auto" placeholder="Search by Departure" value="{{ departure }}">
     <input type="text" name="destination" class="form-control w-auto" placeholder="Search by Destination" value="{{ destination }}">
     <button type="submit" class="btn btn-primary">Search</button>
+    <a href="{{ path('app_trajet_calendar') }}" class="btn btn-primary mb-3">
+      📅 View Calendar
+    </a>
   </form>
 
   <div class="row">
@@ -25,19 +28,21 @@
           {% endif %}
 
           <div class="card-body">
-            <h5 class="card-title">Trajet #{{ trajet.id }}</h5>
-            <p class="card-text"><strong>Departure:</strong> {{ trajet.departure }}</p>
-            <p class="card-text"><strong>Destination:</strong> {{ trajet.destination }}</p>
-            <p class="card-text"><strong>Schedule:</strong> {{ trajet.schedule|date('m/d/Y') }}</p>
+            
+            
+            <p class="card-text"><strong>Schedule:</strong>
+              {% if trajet.schedule %}
+                {{ trajet.schedule|date('d/m/Y') }}
+              {% else %}
+                -
+              {% endif %}
+            </p>
             <p class="card-text"><strong>Price:</strong> {{ trajet.price }} TND</p>
             <p class="card-text"><strong>Status:</strong> {{ trajet.statut ?? 'N/A' }}</p>
 
-      {% if trajet %}
-  <img src="{{ asset('QR/trajet_' ~ trajet.id ~ '.png') }}" class="img-fluid mt-2" alt="QR Code">
-{% endif %}
-
-
-
+            {% if trajet %}
+              <img src="{{ asset('QR/trajet_' ~ trajet.id ~ '.png') }}" class="img-fluid mt-2" alt="QR Code">
+            {% endif %}
           </div>
 
           <div class="card-footer d-flex justify-content-between">
@@ -57,10 +62,5 @@
     {% endfor %}
   </div>
 
-  <div class="text-center mt-4">
-    <a href="{{ path('app_trajet_new') }}" class="btn btn-success">
-      <i class="mdi mdi-plus"></i> Create New Trajet
-    </a>
-  </div>
 </div>
 {% endblock %}

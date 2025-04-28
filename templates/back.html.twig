@@ -116,8 +116,12 @@
               <span class="nav-text">Dashboard</span>
             </a>
             <ul aria-expanded="false">
-              <li><a href="#">Dashboard 1</a></li>
-              <li><a href="#">Dashboard 2</a></li>
+              <li class="nav-item">
+    <a class="nav-link" href="{{ path('app_trajet_statistics') }}">Trajet Statistics</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{{ path('app_transport_statistics') }}">Transport Statistics</a>
+</li>
             </ul>
           </li>
 

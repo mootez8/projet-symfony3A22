@@ -17,52 +17,59 @@ class Transport
         return $this->id;
     }
     #[ORM\Column(type: 'integer')]
-    private int $capacityTransport;
+    #[Assert\NotNull(message: 'Capacity is required.')]
+    #[Assert\Positive(message: 'Capacity must be a positive number.')]
+    private ?int $capacityTransport = null;
 
     #[ORM\Column(type: 'string')]
-    private string $statusTransport;
+    #[Assert\NotBlank(message: 'Status cannot be empty.')]
+    private ?string $statusTransport = null;
 
     #[ORM\Column(type: 'string')]
-    private string $typeTransport;  // Now just a simple string
+    #[Assert\NotBlank(message: 'Type of transport cannot be empty.')]
+    private ?string $typeTransport = null;  // Now just a simple string
 
     #[ORM\Column(type: 'string')]
-    private ?string $image;
+    private ?string $image = null;
+    
 
     // Getter for typeTransport (now returns a simple string)
-    public function getTypeTransport(): string
+    public function getTypeTransport(): ?string
     {
         return $this->typeTransport;
     }
 
     // Setter for typeTransport (now accepts a string)
-    public function setTypeTransport(string $typeTransport): self
-    {
-        $this->typeTransport = $typeTransport;
-        return $this;
-    }
+    public function setTypeTransport(?string $typeTransport): self
+{
+    $this->typeTransport = $typeTransport;
+    return $this;
+}
+    
 
     // Getter and Setter for other properties
-    public function getCapacityTransport(): int
+    public function getCapacityTransport(): ?int
     {
         return $this->capacityTransport;
     }
 
-    public function setCapacityTransport(int $capacityTransport): self
+  public function setCapacityTransport(?int $capacityTransport): self
     {
         $this->capacityTransport = $capacityTransport;
         return $this;
-    }
+}
 
-    public function getStatusTransport(): string
+
+    public function getStatusTransport(): ?string
     {
         return $this->statusTransport;
     }
 
-    public function setStatusTransport(string $statusTransport): self
-    {
-        $this->statusTransport = $statusTransport;
-        return $this;
-    }
+    public function setStatusTransport(?string $statusTransport): self
+{
+    $this->statusTransport = $statusTransport;
+    return $this;
+}
     public function getImage(): ?string
 {
     return $this->image;

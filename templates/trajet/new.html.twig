@@ -3,44 +3,109 @@
 {% block title %}Create New Trajet{% endblock %}
 
 {% block content %}
-  <div class="container-fluid">
-    <h1 class="mb-4">Create New Trajet</h1>
+<div class="container-fluid">
+  <h1 class="mb-4">Create New Trajet</h1>
 
-    <div class="card p-4">
-      <div class="card-body">
-        {{ form_start(form) }}
+  <div class="card p-4">
+    <div class="card-body">
+      {{ form_start(form, { 'attr': { 'novalidate': 'novalidate' } }) }}
 
-        <div class="row mb-3">
-          <div class="col-md-6">{{ form_row(form.departure) }}</div>
-          <div class="col-md-6">{{ form_row(form.destination) }}</div>
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <div class="form-group">
+            {{ form_label(form.departure) }}
+            {{ form_widget(form.departure, {'attr': {'class': 'form-control'}}) }}
+            <div class="text-danger">
+              {{ form_errors(form.departure) }}
+            </div>
+          </div>
         </div>
-
-        <div class="row mb-3">
-          <div class="col-md-6">{{ form_row(form.schedule) }}</div>
-          <div class="col-md-6">{{ form_row(form.price) }}</div>
+        <div class="col-md-6">
+          <div class="form-group">
+            {{ form_label(form.destination) }}
+            {{ form_widget(form.destination, {'attr': {'class': 'form-control'}}) }}
+            <div class="text-danger">
+              {{ form_errors(form.destination) }}
+            </div>
+          </div>
         </div>
-
-        <div class="row mb-3">
-          <div class="col-md-6">{{ form_row(form.created) }}</div>
-          <div class="col-md-6">{{ form_row(form.rating) }}</div>
-        </div>
-
-        <div class="row mb-3">
-          <div class="col-md-6">{{ form_row(form.statut) }}</div>
-          
-        </div>
-
-        <div class="mb-3">
-          {{ form_row(form.transport) }}
-        </div>
-
-        <div class="mt-4">
-          <button type="submit" class="btn btn-success btn-lg"><i class="mdi mdi-check"></i> Save Trajet</button>
-          <a href="{{ path('app_trajet_index') }}" class="btn btn-secondary btn-lg ml-3"><i class="mdi mdi-arrow-left"></i> Back to Trajet List</a>
-        </div>
-
-        {{ form_end(form) }}
       </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <div class="form-group">
+            {{ form_label(form.schedule) }}
+            {{ form_widget(form.schedule, {'attr': {'class': 'form-control'}}) }}
+            <div class="text-danger">
+              {{ form_errors(form.schedule) }}
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            {{ form_label(form.price) }}
+            {{ form_widget(form.price, {'attr': {'class': 'form-control'}}) }}
+            <div class="text-danger">
+              {{ form_errors(form.price) }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <div class="form-group">
+            {{ form_label(form.created) }}
+            {{ form_widget(form.created, {'attr': {'class': 'form-control'}}) }}
+            <div class="text-danger">
+              {{ form_errors(form.created) }}
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            {{ form_label(form.rating) }}
+            {{ form_widget(form.rating, {'attr': {'class': 'form-control'}}) }}
+            <div class="text-danger">
+              {{ form_errors(form.rating) }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <div class="form-group">
+            {{ form_label(form.statut) }}
+            {{ form_widget(form.statut, {'attr': {'class': 'form-control'}}) }}
+            <div class="text-danger">
+              {{ form_errors(form.statut) }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <div class="form-group">
+          {{ form_label(form.transport) }}
+          {{ form_widget(form.transport, {'attr': {'class': 'form-control'}}) }}
+          <div class="text-danger">
+            {{ form_errors(form.transport) }}
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <button type="submit" class="btn btn-success btn-lg">
+          <i class="mdi mdi-check"></i> Save Trajet
+        </button>
+        <a href="{{ path('app_trajet_index') }}" class="btn btn-secondary btn-lg ml-3">
+          <i class="mdi mdi-arrow-left"></i> Back to Trajet List
+        </a>
+      </div>
+
+      {{ form_end(form) }}
     </div>
   </div>
+</div>
 {% endblock %}
