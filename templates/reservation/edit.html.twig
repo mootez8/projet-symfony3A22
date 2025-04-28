@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier une réservation{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="mb-4 text-primary fw-bold">Modifier la réservation</h1>
+
+        <div class="card shadow-lg rounded">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Détails de la réservation</h4>
+            </div>
+            <div class="card-body">
+                {{ form_start(form, { 'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'} }) }}
+
+                    <div class="mb-3">
+                        <label for="reservation_id_reservation" class="form-label">ID Réservation</label>
+                        <input type="text" class="form-control" readonly value="{{ form.vars.value.id }}">
+                    </div>
+
+                    
+
+                    <div class="mb-3">
+                        <label for="reservation_id_offre" class="form-label">Offre</label>
+                        {{ form_widget(form.offre, {'attr': {'class': 'form-control', 'placeholder': 'Choisissez une offre', 'id': 'offer-selection'}}) }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="reservation_nbr_places" class="form-label">Nombre de Places</label>
+                        {{ form_widget(form.nbr_places, {'attr': {'class': 'form-control', 'placeholder': 'Entrez le nombre de places', 'id': 'number-of-places'}}) }}
+                    </div>
+
+                   
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <button type="submit" class="btn btn-primary">{{ button_label|default('Mettre à jour') }}</button>
+                        <a href="{{ path('app_reservation_index') }}" class="btn btn-outline-secondary">Retour à la liste</a>
+                    </div>
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center mt-4">
+            <a href="{{ path('app_offre_index') }}" class="btn btn-outline-primary">Voir les offres</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const offerSelect = document.getElementById('offer-selection');
+            const placesInput = document.getElementById('number-of-places');
+            const totalAmountInput = document.getElementById('total-amount');
+
+            function updateTotalAmount() {
+                const selectedOfferId = offerSelect.value;
+                const numberOfPlaces = parseInt(placesInput.value) || 0;
+
+                if (selectedOfferId && numberOfPlaces > 0) {
+                    fetch(`/offre/${selectedOfferId}/details`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data && data.prix_offre) {
+                                const totalAmount = data.prix_offre * numberOfPlaces;
+                                totalAmountInput.value = totalAmount.toFixed(2);
+                            }
+                        })
+                        .catch(err => console.error('Erreur lors de la récupération des détails de l\'offre :', err));
+                }
+            }
+
+            offerSelect.addEventListener('change', updateTotalAmount);
+            placesInput.addEventListener('input', updateTotalAmount);
+        });
+    </script>
+{% endblock %}

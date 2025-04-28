@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer une nouvelle réservation{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="mb-4 text-primary fw-bold">Créer une nouvelle réservation</h1>
+
+        <div class="card shadow-lg rounded">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Détails de la réservation</h4>
+            </div>
+            <div class="card-body">
+                {{ form_start(form, { 'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'} }) }}
+
+                <div class="mb-3">
+                    <label for="reservation_nbr_places" class="form-label">Nombre de Places</label>
+                    {{ form_widget(form.nbr_places, {'attr': {'class': 'form-control', 'placeholder': 'Entrez le nombre de places', 'id': 'number-of-places'}}) }}
+                    {{ form_errors(form.nbr_places) }}
+                </div>
+
+                <div class="mb-3">
+                    <label for="reservation_offre" class="form-label">Offre</label>
+                    {{ form_widget(form.offre, {
+                        'attr': { 'class': 'form-control', 'placeholder': 'Choisissez une offre', 'id': 'offer-selection' },
+                        'choice_attr': (choice) => ({'data-prix': choice.prixOffre})
+                    }) }}
+                    {{ form_errors(form.offre) }}
+                </div>
+
+                {# Remove this section #}
+                {# <div class="mb-3">
+                    <label for="reservation_prix_total" class="form-label">Montant Total</label>
+                    {{ form_widget(form.prix_total, {'attr': {'class': 'form-control', 'readonly': 'readonly', 'id': 'total-amount'}}) }}
+                </div> #}
+
+                <div class="d-flex justify-content-between mt-4">
+                    <button type="submit" class="btn btn-primary">{{ button_label|default('Sauvegarder') }}</button>
+                    <a href="{{ path('app_reservation_index') }}" class="btn btn-outline-secondary">Retour à la liste</a>
+                </div>
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center mt-4">
+            <a href="{{ path('app_offre_index') }}" class="btn btn-outline-primary">Voir les offres</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const offerSelect = document.getElementById('offer-selection');
+            const placesInput = document.getElementById('number-of-places');
+            // Remove const totalAmountInput = document.getElementById('total-amount');
+
+            function updateTotalAmount() {
+                const selectedOffer = offerSelect.options[offerSelect.selectedIndex];
+                const numberOfPlaces = parseInt(placesInput.value) || 0;
+
+                if (selectedOffer && numberOfPlaces > 0) {
+                    const prixOffre = parseFloat(selectedOffer.dataset.prix);
+                    if (!isNaN(prixOffre)) {
+                        const totalAmount = prixOffre * numberOfPlaces;
+                        // remove totalAmountInput.value = totalAmount.toFixed(2);
+                    }
+                } else {
+                    // remove totalAmountInput.value = '0.00';
+                }
+            }
+
+            if (offerSelect){
+              offerSelect.addEventListener('change', updateTotalAmount);
+            }
+            if (placesInput){
+              placesInput.addEventListener('input', updateTotalAmount);
+            }
+            updateTotalAmount(); // Initial calculation
+        });
+    </script>
+{% endblock %}

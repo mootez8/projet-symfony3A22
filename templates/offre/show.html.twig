@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Offre{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="mb-4 text-primary fw-bold">Détails de l'Offre</h1>
+
+        <!-- Table for offer details -->
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <th>ID de l'offre</th>
+                    <td>{{ offre.id }}</td>
+                </tr>
+                <tr>
+                    <th>Prix de l'offre</th>
+                    <td>{{ offre.prixOffre }} TND</td>
+                </tr>
+                <tr>
+                    <th>Description de l'offre</th>
+                    <td>{{ offre.descriptionOffre|default('Aucune description disponible') }}</td>
+                </tr>
+                <tr>
+                    <th>Événement associé</th>
+                    <td>{{ offre.idEvent }}</td>
+                </tr>
+                <tr>
+                    <th>Nombre de places disponibles</th>
+                    <td>{{ offre.nbrPlacesDis }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Buttons for actions (edit, back) -->
+        <div class="d-flex justify-content-end gap-2 mt-4">
+            <a href="{{ path('app_offre_index') }}" class="btn btn-outline-secondary">Retour à la liste</a>
+            <a href="{{ path('app_offre_edit', {'id': offre.id}) }}" class="btn btn-primary">Modifier</a>
+        </div>
+    </div>
+
+    <script>
+(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="PNNrUMwSB6-1ltecea9jJ";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+</script>
+{% endblock %}

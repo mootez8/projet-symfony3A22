@@ -12,6 +12,13 @@ framework:
         cookie_secure: auto
         cookie_samesite: lax
 
+    assets:
+        packages:
+            front_office:
+                base_path: '/front_office'
+            back_office:
+                base_path: '/back_office'
+
     #esi: true
     #fragments: true
     php_errors:

@@ -1,0 +1,31 @@
+
+
+{% block title %}Détails de la Réservation{% endblock %}
+
+{% block body %}
+    <h1>Détails de la Réservation</h1>
+
+    <div style="font-family: Arial, sans-serif; margin-bottom: 20px;">
+        <h2>Réservation N° {{ reservation.id }}</h2>
+       </div>
+
+    <div style="font-family: Arial, sans-serif; margin-bottom: 20px;">
+        <h3>Offre:</h3>
+        <p><strong>ID Offre:</strong> {{ reservation.offre.id }}</p>
+       
+    </div>
+
+    <div style="font-family: Arial, sans-serif; margin-bottom: 20px;">
+        <h3>Informations sur la Réservation:</h3>
+        <p><strong>Nombre de Places:</strong> {{ reservation.nbrPlaces }}</p>
+        </div>
+
+    <div style="font-family: Arial, sans-serif;">
+        <h3>Récapitulatif:</h3>
+        <p>Merci pour votre réservation ! Nous avons bien enregistré votre demande de {{ reservation.nbrPlaces }} places pour l'offre <strong>{{ reservation.offre.id }}</strong>.</p>
+        </div>
+
+    <footer style="font-family: Arial, sans-serif; margin-top: 40px;">
+        <p>Si vous avez des questions, veuillez nous contacter à notre support.</p>
+    </footer>
+{% endblock %}

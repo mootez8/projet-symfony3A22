@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier l'Offre{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="mb-4 text-primary fw-bold">Modifier l'Offre</h1>
+
+        <!-- Flash messages for success or errors -->
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger">{{ message }}</div>
+        {% endfor %}
+
+        <div class="card shadow-lg rounded">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Détails de l'offre</h4>
+            </div>
+            <div class="card-body">
+                {{ form_start(form) }}
+
+                <!-- ID of the offer (Read-only) -->
+                <div class="mb-3">
+                    {{ form_label(form.id) }}
+                    {{ form_widget(form.id, {'attr': {'class': 'form-control', 'readonly': true, 'placeholder': 'ID unique'}}) }}
+                </div>
+
+                <!-- Price of the offer -->
+                <div class="mb-3">
+                    {{ form_label(form.prix_offre) }}
+                    {{ form_widget(form.prix_offre, {'attr': {'class': 'form-control', 'placeholder': 'Prix'}}) }}
+                </div>
+
+                <!-- Description of the offer -->
+                <div class="mb-3">
+                    {{ form_label(form.description_offre) }}
+                    {{ form_widget(form.description_offre, {'attr': {'class': 'form-control', 'placeholder': 'Description'}}) }}
+                </div>
+
+                <!-- Event ID for the offer -->
+                <div class="mb-3">
+                    {{ form_label(form.id_event) }}
+                    {{ form_widget(form.id_event, {'attr': {'class': 'form-control', 'placeholder': 'ID Événement'}}) }}
+                </div>
+
+                <!-- Available places for the offer -->
+                <div class="mb-3">
+                    {{ form_label(form.nbr_placesDis) }}
+                    {{ form_widget(form.nbr_placesDis, {'attr': {'class': 'form-control', 'placeholder': 'Nombre de places disponibles'}}) }}
+                </div>
+
+                <!-- Submit button -->
+                <button type="submit" class="btn btn-primary">{{ button_label|default('Mettre à jour l\'offre') }}</button>
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+
+        <!-- Links for navigation -->
+        <div class="d-flex justify-content-between mt-4">
+            <a href="{{ path('app_offre_index') }}" class="btn btn-outline-secondary">Retour à la liste</a>
+        </div>
+    </div>
+{% endblock %}

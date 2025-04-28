@@ -1,0 +1,31 @@
+{{ form_start(form) }}
+
+    <div class="mb-3">
+        {{ form_label(form.prixOffre) }}
+        {{ form_widget(form.prixOffre, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.prixOffre) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.descriptionOffre) }}
+        {{ form_widget(form.descriptionOffre, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.descriptionOffre) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.idEvent) }}
+        {{ form_widget(form.idEvent, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.idEvent) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.nbrPlacesDis) }}
+        {{ form_widget(form.nbrPlacesDis, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.nbrPlacesDis) }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        {{ button_label|default('Créer') }}
+    </button>
+
+{{ form_end(form) }}
