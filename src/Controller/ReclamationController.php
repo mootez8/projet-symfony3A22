@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\TranslateService; 
 
+
 #[Route('/reclamation')]
 final class ReclamationController extends AbstractController
 {
@@ -33,7 +34,6 @@ final class ReclamationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $reclamation->setUser($this->getUser());
             $entityManager->persist($reclamation);
             $entityManager->flush();
             $this->addFlash('success', 'Réclamation envoyée avec succès.');
