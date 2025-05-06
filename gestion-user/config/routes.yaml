@@ -1,0 +1,19 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+    
+front_office_home:
+    path: /home
+    controller: App\Controller\DashboardController::frontOffice
+
+back_office_home:
+    path: /back
+    controller: App\Controller\DashboardController::backOffice
+
+app_forgot_password_request:
+    path: /reset-password
+    controller: App\Controller\ResetPasswordController::request
+    methods: [GET, POST]
+
